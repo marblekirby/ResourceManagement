@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Fritz.ResourceManagement.Web.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<Data.MyUser>
+    public class ApplicationDbContext : IdentityDbContext<MyUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

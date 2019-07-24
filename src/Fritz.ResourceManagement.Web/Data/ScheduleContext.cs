@@ -3,13 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-namespace Fritz.ResourceManagement.Web.Models
+namespace Fritz.ResourceManagement.Web.Data
 {
 
-  public class MyDbContext : DbContext
+  public class ScheduleContext : DbContext
   {
 
-	public MyDbContext(DbContextOptions<MyDbContext> options) : base(options)
+	public ScheduleContext(DbContextOptions<ScheduleContext> options) : base(options)
 	{
 
 	}
@@ -43,15 +43,15 @@ namespace Fritz.ResourceManagement.Web.Models
 
   }
 
-  public class MyDbContextFactory : IDesignTimeDbContextFactory<MyDbContext>
+  public class MyDbContextFactory : IDesignTimeDbContextFactory<ScheduleContext>
   {
-	public MyDbContext CreateDbContext(string[] args)
-	{
-	  var optionsBuilder = new DbContextOptionsBuilder<MyDbContext>();
-	  optionsBuilder.UseNpgsql("Host=localhost;Database=postgres;Username=postgres;Password=password");
+		public ScheduleContext CreateDbContext(string[] args)
+		{
+			var optionsBuilder = new DbContextOptionsBuilder<ScheduleContext>();
+			optionsBuilder.UseNpgsql("Host=localhost;Database=postgres;Username=postgres;Password=password");
 
-	  return new MyDbContext(optionsBuilder.Options);
-	}
+			return new ScheduleContext(optionsBuilder.Options);
+		}
   }
 
 

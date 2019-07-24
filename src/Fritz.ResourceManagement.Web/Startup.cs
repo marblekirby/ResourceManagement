@@ -39,10 +39,10 @@ namespace Fritz.ResourceManagement.Web
 	  services.AddDbContext<ApplicationDbContext>(options =>
 		  options.UseNpgsql(
 			  Configuration.GetConnectionString("db")));
-	  services.AddDefaultIdentity<MyUser>()
+	  services.AddIdentity<MyUser, IdentityRole>()
 		  .AddEntityFrameworkStores<ApplicationDbContext>();
 
-	  services.AddDbContext<Models.MyDbContext>(options =>
+	  services.AddDbContext<ScheduleContext>(options =>
 		  options.UseNpgsql(Configuration.GetConnectionString("db")));
 
 	  services.AddSignalR();

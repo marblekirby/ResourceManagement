@@ -5,7 +5,6 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Fritz.ResourceManagement.Domain;
 using Fritz.ResourceManagement.Web.Data;
-using Fritz.ResourceManagement.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -22,12 +21,12 @@ namespace Fritz.ResourceManagement.Web.Areas.Identity.Pages.Account
 	private readonly UserManager<MyUser> _userManager;
 	private readonly ILogger<RegisterModel> _logger;
 	private readonly IEmailSender _emailSender;
-	private readonly MyDbContext _DbContext;
+	private readonly ScheduleContext _DbContext;
 
 	public RegisterModel(
 		UserManager<MyUser> userManager,
 		SignInManager<MyUser> signInManager,
-		MyDbContext dbContext,
+		ScheduleContext dbContext,
 		ILogger<RegisterModel> logger,
 		IEmailSender emailSender)
 	{
@@ -84,6 +83,9 @@ namespace Fritz.ResourceManagement.Web.Areas.Identity.Pages.Account
 		  // Cheer 200 svavablount 07/06/19 
 
 		  await _userManager.AddClaimAsync(user, new System.Security.Claims.Claim(MyUser.Claims.PERSONID, user.PersonId.ToString()));
+
+		  //set user as an employee
+		  await _userManager.AddToRoleAsync(user, "employee");
 
 		  var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 		  var callbackUrl = Url.Page(
