@@ -15,10 +15,10 @@ namespace Fritz.ResourceManagement.Web.Controllers
 	[Route("api/[Controller]")]
 	public class TimeslotController : Controller
 	{
-		private readonly MyDbContext _MyDbContext;
+		private readonly ScheduleContext _MyDbContext;
 		private readonly ScheduleManager _ScheduleManager;
 
-		public TimeslotController(MyDbContext myDbContext, ScheduleManager scheduleManager)
+		public TimeslotController(ScheduleContext myDbContext, ScheduleManager scheduleManager)
 		{
 			_MyDbContext = myDbContext;
 			_ScheduleManager = scheduleManager;

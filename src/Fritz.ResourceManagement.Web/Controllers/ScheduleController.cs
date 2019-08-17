@@ -16,9 +16,9 @@ namespace Fritz.ResourceManagement.Web.Controllers
 	[Authorize]
 	public class ScheduleController : ControllerBase
 	{
-		private readonly MyDbContext _DbContext;
+		private readonly ScheduleContext _DbContext;
 
-		public ScheduleController(MyDbContext dbContext)
+		public ScheduleController(ScheduleContext dbContext)
 		{
 			this._DbContext = dbContext;
 		}

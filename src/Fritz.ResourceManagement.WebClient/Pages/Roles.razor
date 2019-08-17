@@ -1,0 +1,54 @@
+﻿@page  "/roles"
+@inject ViewModels.RoleManagementViewModel Model
+
+<div>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th class="col">
+					#
+				</th>
+				<th class="col">
+					Username
+				</th>
+				<th class="col">
+					Role
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			@Page
+		</tbody>
+	</table>
+</div>
+
+@functions  {
+
+	[Parameter]
+	private int Page
+	{
+		get { return Model.Page; }
+		set { Model.Page = value; }
+	}
+
+	[Parameter]
+	private string Search
+	{
+		get { return Model.Search; }
+		set { Model.Search = value; }
+	}
+
+	[Parameter]
+	private List<UserInRole> Users
+	{
+		get { return Model.Users; }
+		set { Model.Users = value; }
+	}
+
+	protected override void OnInit()
+	{
+		base.OnInit();
+
+	}
+
+}

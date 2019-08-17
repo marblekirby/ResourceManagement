@@ -6,10 +6,10 @@ using Microsoft.Extensions.Configuration;
 namespace Fritz.ResourceManagement.Web.Models
 {
 
-	public class MyDbContext : DbContext
+	public class ScheduleContext : DbContext
 	{
 
-		public MyDbContext(DbContextOptions<MyDbContext> options) : base(options)
+		public ScheduleContext(DbContextOptions<ScheduleContext> options) : base(options)
 		{
 
 		}
