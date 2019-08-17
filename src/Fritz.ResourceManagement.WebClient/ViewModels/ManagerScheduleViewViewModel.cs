@@ -14,8 +14,13 @@ namespace Fritz.ResourceManagement.WebClient.ViewModels
 		public DateTime SelectedDate
 		{
 			get { return this.MyScheduleState.SelectedDate; }
-			set { this.MyScheduleState.SelectDate(value); }
+			set { 
+				this.MyScheduleState.DisplayBeginDate = this.SelectedDate.Subtract(TimeSpan.FromDays((int)value.DayOfWeek));
+				this.MyScheduleState.DisplayEndDate = this.MyScheduleState.DisplayBeginDate.AddDays(7);
+				this.MyScheduleState.SelectDate(value);
+			}
 		}
+
 		public ScheduleState MyScheduleState { get; private set; }
 
 		private readonly HttpClient HttpClient;
@@ -33,6 +38,7 @@ namespace Fritz.ResourceManagement.WebClient.ViewModels
 
 		public async Task OnParametersSetAsync()
 		{
+
 			this.MyScheduleState.DisplayBeginDate = this.SelectedDate.Subtract(TimeSpan.FromDays((int)this.SelectedDate.DayOfWeek));
 			this.MyScheduleState.DisplayEndDate = this.MyScheduleState.DisplayBeginDate.AddDays(7);
 
