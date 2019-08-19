@@ -35,10 +35,6 @@ namespace Fritz.ResourceManagement.Domain
 
 	public DateTime MaxEndDateTime { get; set; }
 
-	public DateTime MinStartDateTime { get; set; }
-
-	public DateTime MaxEndDateTime { get; set; }
-
 	public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
 	{
 
