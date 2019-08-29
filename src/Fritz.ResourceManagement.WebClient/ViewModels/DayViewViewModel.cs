@@ -1,15 +1,13 @@
 ﻿using System;
 using Fritz.ResourceManagement.Domain;
+using Microsoft.AspNetCore.Components;
 
 namespace Fritz.ResourceManagement.WebClient.ViewModels
 {
-	public class DayViewViewModel
+	public class DayViewViewModel : ComponentBase
 	{
-
-		public DayViewViewModel(Data.ScheduleState scheduleState)
-		{
-			this.MyScheduleState = scheduleState;
-		}
+		private const double MinuteInEms = 0.025; // 1 minute = 1.25em / 60 = 0.025em
+		private const double RowGaps = 0.063;
 
 		public int HoursPerDay
 		{
@@ -26,17 +24,27 @@ namespace Fritz.ResourceManagement.WebClient.ViewModels
 			get { return this.MyScheduleState.Schedule; }
 		}
 
+		[Inject]
+		[Parameter]
 		public Data.ScheduleState MyScheduleState { get; set; }
 
+		// Cheer 701 themichaeljolley 09/07/19
+		// Cheer 600 cpayette 09/07/19
+		// Cheer 1500 clintonrocksmith 09/07/19
+		[Parameter]
 		public DateTime DayViewStart { get; set; } = DateTime.Today.AddHours(8);
 
+		[Parameter]
 		public DateTime DayViewEnd { get; set; } = DateTime.Today.AddHours(20);
 
+		// Cheer 110 copperbeardy 14/07/19
+		[Parameter]
 		public int DayCount { get; set; } = 1;
 
 		/// <summary>
 		/// Should we display the dates above the grid
 		/// </summary>
+		[Parameter]
 		public bool DayDisplay { get; set; } = false;
 
 		public bool DisplayItem(DateTime start, DateTime end)
@@ -63,11 +71,12 @@ namespace Fritz.ResourceManagement.WebClient.ViewModels
 
 		public int ItemStartRow(DateTime start)
 		{
-			if (start.Hour <= this.DayViewStart.Hour)
+			var startDayView = this.SelectedDate.Date.Add(this.DayViewStart.TimeOfDay);
+
+			if (start <= startDayView)
 			{
 				return 1;
 			}
-
 			return (start.Hour - this.DayViewStart.Hour) + 1;
 		}
 
@@ -78,12 +87,12 @@ namespace Fritz.ResourceManagement.WebClient.ViewModels
 
 			if (start < startDayView)
 			{
-				return "-0.050em";
+				return $"{RowGaps * -1}em";
 			}
 
 			if (start > startDayView && start.Minute > 0)
 			{
-				top = 0.025 * start.Minute;
+				top = MinuteInEms * start.Minute;
 			}
 			return (top > 0) ? $"{top}em" : "0";
 		}
@@ -123,17 +132,29 @@ namespace Fritz.ResourceManagement.WebClient.ViewModels
 
 			if (start.TimeOfDay < this.DayViewStart.TimeOfDay)
 			{
-				height += 0.050; // Add 2 extra minutes for negative top position from ItemTopPosition
+				height += RowGaps; // Add extra length for negative top position from ItemTopPosition
 			}
 
 			totalMinutes = endTime.Subtract(startTime).TotalMinutes;
-			height += 0.025 * totalMinutes; // 1 minute = 1.25em / 60 = 0.025em
+			height += MinuteInEms * totalMinutes;
 
 			/* Adjust for row gaps, 1px = 0.063em at base 16px size
 			 * according to http://pxtoem.com/ */
-			height += 0.063 * (endTime.Subtract(startTime).TotalHours);
+			height += RowGaps * (endTime.Subtract(startTime).TotalHours);
 
 			return (height > 0) ? $"{height}em" : "0";
+		}
+
+		// Cheer 142 cpayette 15/8/19 
+		protected override void OnParametersSet()
+		{
+			MyScheduleState.OnSelectedDateChanged += (obj, args) =>
+			{
+				this.StateHasChanged();
+			};
+
+			this.StateHasChanged();
+			base.OnParametersSet();
 		}
 	}
 }
